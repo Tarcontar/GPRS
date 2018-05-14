@@ -39,6 +39,14 @@ bool GPRS::checkSimStatus()
 
 bool GPRS::sendSMS(String msg, String number, String cc)
 {
+	if (!startSMS(number, cc))
+		return false;
+	m_uart << msg;
+	return endSMS();
+}
+
+bool GPRS::startSMS(String number, String cc)
+{
 	m_uart << F("\r");
 	if (!send_rec(F("AT+CMGF=1\r"), F("OK\r\n")))
 		return false;
@@ -52,11 +60,20 @@ bool GPRS::sendSMS(String msg, String number, String cc)
 		number.remove(0, 1);
 		m_uart << number;
 	}
-		
 	if (!send_rec(F("\"\r"), F(">")))
 		return false;
 	delay(300);
-	m_uart << msg;
+	return true;
+}
+
+template <class T>
+void GPRS::append(T t)
+{
+	m_uart << t;
+}
+
+bool GPRS::endSMS()
+{
 	m_uart << F("\r");
 	delay(300);
 	m_uart << (char)26;

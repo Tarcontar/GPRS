@@ -14,6 +14,12 @@ public:
 	bool checkPowerUp();
 	bool checkSimStatus();
     bool sendSMS(String msg, String number, String cc = "+49");
+	bool startSMS(String number, String cc = "+49");
+	
+	template <class T>
+	void append(T t);
+	
+	bool endSMS();
 	bool getSubscriberNumber(char *number);
 	
 private:
