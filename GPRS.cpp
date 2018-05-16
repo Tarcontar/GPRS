@@ -135,6 +135,5 @@ bool GPRS::wait_for_response(String resp)
 		//if (((unsigned long) (millis() - prevChar) > INTERCHAR_TIMEOUT) && (prevChar != 0))
 		//	return false;
 	}
-	//need to flush serial if command?
 	return true;
 }
